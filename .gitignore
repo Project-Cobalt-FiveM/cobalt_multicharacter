@@ -1,0 +1,7 @@
+node_modules/
+**/node_modules/
+
+_nui/.vite/
+_nui/*.tsbuildinfo
+
+.DS_Store

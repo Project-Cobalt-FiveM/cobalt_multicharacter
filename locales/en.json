@@ -1,0 +1,120 @@
+{
+    "spawn": {
+        "last": {
+            "name": "Last location",
+            "subtitle": "Where you logged out"
+        },
+        "property": "Your property",
+        "legion": {
+            "name": "Legion Square",
+            "description": "The heart of downtown Los Santos"
+        },
+        "airport": {
+            "name": "Airport",
+            "description": "Los Santos International Airport"
+        },
+        "vespucci": {
+            "name": "Vespucci Beach",
+            "description": "The sunny boardwalk along the coast"
+        },
+        "sandy": {
+            "name": "Sandy Shores",
+            "description": "A quiet desert town in Blaine County"
+        },
+        "paleto": {
+            "name": "Paleto Bay",
+            "description": "Peaceful coastal town up north"
+        }
+    },
+    "arrival": {
+        "skip": "[SPACE] Skip"
+    },
+    "create": {
+        "invalid": "Couldn't create that character. Check the details and try again."
+    },
+    "command": {
+        "logout": "Log out and go back to character select"
+    },
+    "ui": {
+        "unknown": "Unknown",
+        "cancel": "Cancel",
+        "close": "Close",
+        "key": {
+            "enter": "Enter",
+            "drag": "Drag"
+        },
+        "hint": {
+            "browse": "Browse",
+            "play": "Play",
+            "create": "Create",
+            "rotate": "Rotate"
+        },
+        "characters": {
+            "title": "Your characters",
+            "count": "%d of %d",
+            "new": "New character",
+            "free_one": "%d slot free",
+            "free_other": "%d slots free"
+        },
+        "character": {
+            "subtitle": "%s.",
+            "subtitle_played": "%s. Last played %s.",
+            "civilian": "Civilian",
+            "just_now": "just now",
+            "born": "Born",
+            "cash": "Cash",
+            "bank": "Bank",
+            "nationality": "Nationality",
+            "play": "Play as %s",
+            "delete": "Delete %s",
+            "new_subtitle": "Pick a name and birthday, then shape their look."
+        },
+        "create": {
+            "action": "Create character",
+            "submitting": "Creating…",
+            "firstname": "First name",
+            "firstname_placeholder": "e.g. Jordan…",
+            "firstname_missing": "First name is required",
+            "lastname": "Last name",
+            "lastname_placeholder": "e.g. Reyes…",
+            "lastname_missing": "Last name is required",
+            "name_characters": "Use letters, spaces, hyphens or apostrophes",
+            "name_blocked": "Choose a different name",
+            "nationality": "Nationality",
+            "nationality_placeholder": "Search, e.g. American…",
+            "nationality_missing": "Pick a nationality from the list",
+            "birthdate": "Date of birth",
+            "birthdate_invalid": "Enter a real date between %d and %d",
+            "day": "Day",
+            "month": "Month",
+            "year": "Year",
+            "day_placeholder": "DD",
+            "month_placeholder": "MM",
+            "year_placeholder": "YYYY",
+            "gender": "Gender",
+            "male": "Male",
+            "female": "Female"
+        },
+        "delete": {
+            "action": "Delete character",
+            "submitting": "Deleting…",
+            "confirm": "Delete %s? This can't be undone."
+        },
+        "spawn": {
+            "title": "Where to?",
+            "count_one": "%d place",
+            "count_other": "%d places",
+            "back": "Characters",
+            "action": "Spawn here",
+            "area": "Area",
+            "postal": "Postal",
+            "type": "Type",
+            "kind": {
+                "last": "Last location",
+                "apartment": "Apartment",
+                "house": "Property",
+                "favorite": "Public spot"
+            }
+        }
+    }
+}
