@@ -52,10 +52,10 @@ local function toOrg(group)
     return { label = group.label or group.name, grade = group.grade?.name or '' }
 end
 
----@param orgDoc { job: table?, gang: table? }?
+---@param character CoreAccountCharacter
 ---@return MulticharOrg?
-local function resolveOrg(orgDoc)
-    return toOrg(orgDoc?.job) or toOrg(orgDoc?.gang)
+local function resolveOrg(character)
+    return toOrg(character.job) or toOrg(character.gang)
 end
 
 ---@param license string
@@ -124,56 +124,25 @@ local function decode(value)
     return value and json.decode(value)
 end
 
----@param license string
----@return table[]
-local function fetchCharacters(license)
-    local rows <const> = MySQL.query.await([[
-        SELECT citizenid, cid, charinfo, money, position, metadata,
-            UNIX_TIMESTAMP(last_updated) AS lastUpdated
-        FROM players WHERE license = ? ORDER BY cid LIMIT 50
-    ]], { license })
-
-    for _, row in ipairs(rows) do
-        row.charinfo = decode(row.charinfo)
-        row.money = decode(row.money)
-        row.position = decode(row.position)
-        row.metadata = decode(row.metadata)
-    end
-
-    return rows
-end
-
----@param citizenids string[]
----@return table<string, { job: table?, gang: table? }>
-local function fetchOrgs(citizenids)
-    if #citizenids == 0 or GetResourceState('cobalt_management') ~= 'started' then return {} end
-
-    local management <const> = exports.cobalt_management
-    local ok <const>, orgsByCid <const> = pcall(management.GetAffiliations, management, citizenids)
-
-    return ok and orgsByCid or {}
-end
-
----@param row table
----@param orgDoc { job: table?, gang: table? }?
+---@param character CoreAccountCharacter
 ---@return MulticharCharacter
-local function toCharacter(row, orgDoc)
-    local money <const> = row.money or {}
-    local meta <const> = row.metadata or {}
+local function toCharacter(character)
+    local money <const> = character.money
+    local meta <const> = character.metadata
 
-    money.bank = bankBalance(row.citizenid) or money.bank or 0
+    money.bank = bankBalance(character.citizenid) or money.bank or 0
 
     return {
-        citizenid = row.citizenid,
-        cid = row.cid,
-        charinfo = row.charinfo or {},
+        citizenid = character.citizenid,
+        cid = character.cid,
+        charinfo = character.charinfo,
         money = money,
-        org = resolveOrg(orgDoc),
-        position = row.position,
+        org = resolveOrg(character),
+        position = character.position,
         isDead = meta.isdead == true or meta.inlaststand == true,
-        lastPlayed = row.lastUpdated,
+        lastPlayed = character.lastPlayed,
         starterApartment = starterApartment(meta.starterApartment),
-        houses = ownedHouses(row.citizenid),
+        houses = ownedHouses(character.citizenid),
     }
 end
 
@@ -297,15 +266,10 @@ lib.callback.register('cobalt_multicharacter:server:getCharacters', function(sou
     local license <const> = Cobalt.Functions.GetIdentifier(source, 'license')
     if not license then return {}, 0 end
 
-    local rows <const> = fetchCharacters(license)
-
-    local citizenids <const> = {}
-    for i = 1, #rows do citizenids[i] = rows[i].citizenid end
-
-    local orgsByCid <const> = fetchOrgs(citizenids)
-
+    local account <const> = exports.cobalt_core:GetAccount(license)
     local characters <const> = {}
-    for i = 1, #rows do characters[i] = toCharacter(rows[i], orgsByCid[rows[i].citizenid]) end
+
+    for i, character in ipairs(account?.characters or {}) do characters[i] = toCharacter(character) end
 
     return characters, maxSlotsFor(license)
 end)
